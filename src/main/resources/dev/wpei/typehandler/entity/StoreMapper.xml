@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.wpei.typehandler.entity.StoreMapper">
+
+    <resultMap id="storeResultMap" type="Store">
+        <constructor>
+            <idArg column="id" javaType="long" />
+            <arg column="request_id" javaType="String" />
+            <arg column="store_name" javaType="String" />
+            <arg column="brand_name" javaType="String" />
+            <arg column="representative" javaType="Representative" typeHandler="RepresentativeTypeHandler"/>
+        </constructor>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT into store (request_id, store_name, brand_name, representative)
+        VALUES (#{requestId}, #{storeName}, #{brandName}, #{representative, javaType=Representative, typeHandler=RepresentativeTypeHandler})
+    </insert>
+
+    <select id="all" resultMap="storeResultMap">
+        SELECT
+          id,
+          request_id,
+          store_name,
+          brand_name,
+          representative
+        FROM store;
+    </select>
+</mapper>

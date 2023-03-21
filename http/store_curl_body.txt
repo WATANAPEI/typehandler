@@ -1,0 +1,9 @@
+{
+    "requestId":12345,
+    "storeName":"test store 01",
+    "brandName":"brandName",
+    "representative": {
+        "lastName":"yamada",
+        "firstName":"taro"
+    }
+}
