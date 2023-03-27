@@ -1,9 +1,15 @@
 {
-    "requestId":12345,
-    "storeName":"test store 01",
+    "requestId":12347,
+    "storeName":"test stores",
     "brandName":"brandName",
-    "representative": {
+    "representatives": [{
         "lastName":"yamada",
         "firstName":"taro"
-    }
+    }, {
+        "lastName":"sato",
+        "firstName":"jiro"
+    }, {
+        "lastName":"suzuki",
+        "firstName":"ichiro"
+    }]
 }

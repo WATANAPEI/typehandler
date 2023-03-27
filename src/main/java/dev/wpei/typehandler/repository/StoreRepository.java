@@ -17,7 +17,7 @@ public class StoreRepository {
 
     @Transactional
     public void save(StoreRequestDto dto) {
-        storeMapper.insert(dto.getRequestId(), dto.getStoreName(), dto.getBrandName(), dto.getRepresentative());
+        storeMapper.insert(dto.getRequestId(), dto.getStoreName(), dto.getBrandName(), dto.getRepresentatives());
     }
 
     public List<Store> all() {

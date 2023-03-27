@@ -2,15 +2,16 @@ package dev.wpei.typehandler.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.apache.ibatis.type.Alias;
+
+import java.util.List;
 
 @Alias("Representative")
 @Getter
@@ -27,24 +28,20 @@ public class Representative {
         this.lastName = lastName;
     }
 
-    public String toJson() {
+    public static List<Representative> of(String json) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String result = mapper.writeValueAsString(this);
-            System.out.println("serialized representative object.");
-            System.out.println(result);
+            TypeFactory typeFactory = mapper.getTypeFactory();
+            CollectionType collectionType = typeFactory.constructCollectionType(List.class, Representative.class);
+            List<Representative> result = mapper.readValue(json, collectionType);
             return result;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Representative of(String json) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Representative result = mapper.readValue(json, Representative.class);
-            System.out.println("deserialized from string.");
-            return result;
+        }catch (MismatchedInputException e) {
+            try {
+                Representative representative = mapper.readValue(json, Representative.class);
+                return List.of(representative);
+            } catch (JsonProcessingException ex) {
+                throw new RuntimeException(ex);
+            }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
