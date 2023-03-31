@@ -4,9 +4,18 @@ services:
   db:
     image: mysql:8.0
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - type: bind
+        source: ${LOCAL_WORKSPACE_FOLDER:-.}/init.sql
+        target: /docker-entrypoint-initdv.d/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: typehandler
     ports:
-      - "3306:3306"
+      - "30000:3306"
+      # - "3306:3306"
+    networks:
+      - mynet
+networks:
+  mynet:
+    name: mynet
